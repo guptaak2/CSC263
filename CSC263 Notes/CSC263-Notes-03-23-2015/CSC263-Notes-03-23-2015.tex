@@ -1,0 +1,95 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-03-23-2015}
+
+\input{"../csc263-header"}
+\rhead{March 23, 2015}
+
+\section*{Lecture 21}
+
+\noindent $G$ is connected, undirected.
+
+\begin{lstlisting}[mathescape]
+kruskal-mst($G=(V,E), w: E \rightarrow R$)
+	T $\leftarrow \{\} $
+	sort edges
+	for each $v$ in $V$:
+		make-set(v)
+	for i $\leftarrow$ 1 to $m$:
+		if findset($u_i$) != findset($v_i$):
+			union($u_i,v_i$)
+			T $\leftarrow \cup \{e_i\}$ 
+\end{lstlisting}
+
+\subsection*{Disjoint Set ADT}
+
+\begin{itemize}
+	\item[] \texttt{make-set($x$)}: create a new set $\{x\}$ that contains only
+	$x$ and makes $x$ the representative
+	\item[] \texttt{findset($x$)}: returns the representative of the set that
+	contains $x$
+	\item[] \texttt{union($x,y$)}: puts two sets together, picks new
+	representative 
+\end{itemize}
+
+\subsubsection*{Hashtable approach}
+
+\noindent key vertex, value rep
+
+\begin{tabular}{l @{ : } l}
+	f & a \\
+	a & a \\
+	b & b \\
+	c & b \\
+	d & d \\
+	e & d \\
+\end{tabular} \\
+
+\begin{tabular}{l @{$\rightarrow$} l}
+	a & [a] \\
+	b & [b,c] \\
+	d & [d,e,f] \\
+\end{tabular}
+
+\subsubsection*{Linked list approach}
+
+$A$ \\
+\indent $B \rightarrow C$ \\
+\indent $D \rightarrow E \rightarrow F$ \\
+
+\noindent circular linked list? $\rightarrow$ for \texttt{findset($x$)} \\
+$\rightarrow$ use doubly linked list insteadt, go back: 
+
+$A$ \\
+\indent $B \leftrightarrow C$ \\
+\indent $D \leftrightarrow E \leftrightarrow F$ \\
+
+\noindent \texttt{union(C,E)}: \\
+
+\noindent doubly linked list, each item has pointer to rep \\
+then point B to D $\rightarrow$ better \texttt{union}, but worse \texttt{findset}   
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

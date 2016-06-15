@@ -1,0 +1,85 @@
+\documentclass[letterpaper]{article}
+
+% Geometry
+\usepackage[letterpaper, top=2.54cm, bottom=2.54cm, left=2.54cm, right=2.54cm]{geometry}
+
+% Fancy Header
+\usepackage{fancyhdr}
+% Change header bottom bar thickness
+\renewcommand{\headrulewidth}{0pt}
+
+% Hyperlinks
+% -option hidelinks disables red boxes around links
+\usepackage[hidelinks]{hyperref}
+
+% Tikz
+\usepackage{tikz}
+
+% Phylogenetic Trees
+% -http://cbr.jic.ac.uk/dicks/software/newicktree/
+% -requires compiling with xelatex
+%\usepackage{newicktree}
+
+% Qtree
+%\usepackage{qtree}
+
+% Enumitem for formatting enumerated lists
+\usepackage{enumitem}
+
+% Listings
+\usepackage{listings}
+\lstset{
+	tabsize=2,
+	basicstyle=\ttfamily,
+	aboveskip=0pt,
+	belowskip=\baselineskip
+}
+
+% Courier 
+% -for \ttfamily to work in listings
+\usepackage{courier}
+
+
+% Math symbols and other symbols
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Colours
+\usepackage{color}
+\definecolor{grey}{gray}{0.4}
+
+% Math tools
+\usepackage{mathtools}
+% \ceil{} and \floor{} functions
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+% Margin paragraph commands
+\DeclareRobustCommand{\mymarginpar}[1]{%
+ \mbox{}\marginpar[\raggedleft#1]{\raggedright#1}
+ \vspace{-\baselineskip}
+}
+\DeclareRobustCommand{\mpconsider}{%
+ \mymarginpar{\textit{Consider}}
+}
+\DeclareRobustCommand{\mpclaim}{%
+ \mymarginpar{\textbf{Claim}}
+}
+\DeclareRobustCommand{\mpex}{%
+ \mymarginpar{Ex.}
+}
+\DeclareRobustCommand{\mpnote}{%
+ \mymarginpar{\textit{Note}}
+}
+\DeclareRobustCommand{\mpproof}{%
+ \mymarginpar{\textbf{Proof}}
+}
+\def\mpreadings{\mymarginpar{\textit{Readings}}}
+\def\mpselftest{\mymarginpar{\textit{Self test}}}
+
+% Quick Commands
+\def\N{\mathbb{N}}
+\def\R{\mathbb{R}}
+\def\implies{\Rightarrow}
+\def\and{\wedge}
+\def\Or{\vee}

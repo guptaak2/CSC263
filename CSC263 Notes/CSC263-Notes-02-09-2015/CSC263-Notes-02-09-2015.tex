@@ -1,0 +1,72 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-02-09-2015}
+
+\input{"../csc263-header"}
+\rhead{February 9, 2015}
+
+\reversemarginpar
+\mpreadings
+
+\noindent Chapter 7 \\
+
+\mpselftest
+
+\noindent 7.1-1, 7.2-2 \\
+
+\section*{Lecture 11}
+
+\noindent The following algorithm sorts an input sequence $S$ in non-decreasing order. \\
+
+\begin{lstlisting}[mathescape]
+QuickSort(S):
+	if |S| $\leq$ 1: 
+		return S
+	else:
+		select pivot p $\in$ S
+		parition elements of S into
+			L = elements of S < p
+			E = elements of S = p
+			G = elements of S > p
+		return[QuickSort(L), E, QuickSort(G)]
+\end{lstlisting}
+
+\noindent For the purposes of determinism, select the first item in $S$ as pivot. \\
+
+\noindent To prove worst/best case: 
+\begin{itemize}
+	\item a worst/best case input
+	\item the time complexity for this input
+	\item an argument that this input must be a worst or best case (no other case can take longer/shorter)
+\end{itemize}
+
+\subsection*{Worst Case}
+
+\noindent To simplifiy analysis, count only comparisons between elements of $S$. Where are these comparisons performed? $\rightarrow$ During partition step. \\
+
+\noindent Upper bound:
+\begin{itemize}
+	\item every element in $S$ is pivot at most once
+	\item every pair of elements are compared at most once (at most all other elements of $S$ are compared to pivot)
+	\item there are $n \choose 2$ pairs of elements if $|S| = n$, $T(n) \leq {n \choose 2}$ is in $O(n^2)$
+\end{itemize}
+
+\noindent Lower bound: \\
+Want to find $S$ of size $n$ for which \texttt{QuickSort(S)} does at least $cn^2$ comparisons. \\
+Let $C(n)$ = \# of comparisons performed on $[n,n-1,n-2,\ldots,2,1]$. \\
+$n$ will be pivot $\rightarrow E = [n]$ \\
+$n-1$ comparisons $\rightarrow L = [\;], G = [n-1,n-2,\ldots,2,1]$ 
+
+\begin{equation*}
+\begin{split}
+C(n) & = n-1 + C(n-1), C(1) = 0 \\
+& = (n-1)+(n-2)+(n-3)+\cdots+1 \\
+& = \sum_{i=o}^{n-1} i = \frac{n(n-1)}{2} \in O(n^2)
+\end{split}
+\end{equation*}
+
+\noindent By definition, $T(n) \geq C(n) = {n \choose 2}$. Hence $T(n) \in \Omega(n^2)$. Then $T(n) \in \Theta(n^2)$.
+
+\end{document}

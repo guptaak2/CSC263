@@ -1,0 +1,78 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-03-11-2015}
+
+\input{"../csc263-header"}
+\rhead{March 11, 2015}
+
+\section*{Lecture 18}
+
+\subsection*{Depth-First Search}
+
+\begin{lstlisting}[mathescape]
+
+DFS(V,E):
+	for each v in V:
+		colour[v] $\leftarrow$ white
+		f[v] $\leftarrow$ d[v] $\leftarrow$ $\infty$
+		p[v] $\leftarrow$ NIL
+	time $\leftarrow$ 0 # global
+	for each v in V:
+		if colour[v] = white:
+			DFS-Visit(G,v)
+
+DFS-Visit(G=(V,E), u):
+	colour[u] $\leftarrow$ gray
+	d[u] $\leftarrow$ time $\leftarrow$ time + 1
+	for each (u,v) in E:
+		if colour[v] == white:
+			p[v] $\leftarrow$ u
+			DFS-Visit(G,v)
+	colour[u] $\leftarrow$ black
+	if[u] $\leftarrow$ time $\leftarrow$ time + 1
+
+\end{lstlisting}
+
+\subsection*{Runtime of DFS}
+
+\noindent \texttt{DFS-visit} only called on white vertices and those vertices immediately become grey. So \texttt{DFS-visit} is called once per vertex.
+
+\noindent Outside of recursive calls, each excution of \texttt{DFS-visit} examines adjacency list for one vertex. Total
+of all adjacency list entries is $|E|$. So total runtime is $O(|E| + |V|)$.
+
+\subsection*{Disovery + Finish Times}
+
+\begin{itemize}
+	\item follow paranthesis order
+	\item tree edges $\rightarrow$ depth-first forest \\
+		edge $(u,v)$ where $u$ is $v$'s parent, $v$ was white when we explored
+		$(u,v$.
+	\item back edge $\rightarrow$$v$ is an ancestor of u in depth-first foreest, $v$ was grey
+	\item forward edge  $\rightarrow$ $(u,v)$ where $v$ is descendant of $u$ in
+	depth-first forest and $(u,v)$ is not in the depth-first forest. $v$ is
+	black at the point of examining this edge.
+\end{itemize}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

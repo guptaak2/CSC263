@@ -1,0 +1,86 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-01-05-2015}
+
+\input{"../csc263-header"}
+\rhead{January 5, 2015}
+
+\section*{Lecture 01}
+
+\noindent \textbf{Abstract Data Type (ADT)}:= set of objects with set of
+operations on these objects
+\begin{itemize}
+    \item two components:
+        \begin{enumerate}
+            \item object/data
+            \item operations
+        \end{enumerate}
+    \item objects: integers; operations: \texttt{add(x,y), multiply(x,y)},
+        etc
+    \item stack
+        \begin{itemize}
+            \item objects: lists (or sequences)
+            \item operations: \texttt{push(S,v), pop(S),
+                isEmpty(S)}
+        \end{itemize}
+    \item ADT's are important for specification; provide modularity and
+        reuse since usage is independent of implementation
+\end{itemize}
+
+\noindent \textbf{Data structure}:= specific implementation of an ADT: a way to
+represent the objects and an algorithm for each operation \\
+
+\noindent Stack implementations:
+\begin{enumerate}[label={(\alph*)}]
+    \item linked list
+        \begin{itemize}
+            \item $head \rightarrow [X] \rightarrow [X] \rightarrow [\;]$
+            \item keep pointer to head
+            \item \texttt{isEmpty}: test \texttt{head == None}
+            \item \texttt{push}: insert at front of list
+            \item \texttt{pop}: remove front of list (if not empty)
+        \end{itemize}
+    \item array with counter (size of stack)
+        \begin{itemize}
+            \item[] \begin{tabular}{| l | l | l | l | l | l |}
+                    \hline 5 & 7 & 9 & 2 & 12 & $\cdots$ \\ \hline
+                \end{tabular}
+        \end{itemize}
+\end{enumerate}
+
+\noindent In general,
+\begin{itemize}
+    \item ADT describes \textit{what} (data and operations)
+    \item data structure describes \textit{how} (storing data, performing
+        operations)
+\end{itemize}
+
+\noindent In this course we will encounter many ADTs and many data structures
+for these ADTs. Use careful analysis (of correctness and complexity) to compare
+possibilities.
+
+\subsection*{Algorithm Analysis (Review)}
+
+\noindent \textbf{Complexity}:= the amount of
+$\underbrace{\textrm{resources}}_{\mathclap{\text{running time, memory
+(space)}}}$ required by an algorithm, measured as a function of input size.
+
+\begin{itemize}
+    \item input size measured as..
+        \begin{itemize}
+            \item number $\rightarrow$ \# bits 
+            \item list $\rightarrow$ \# elements
+            \item graph $\rightarrow$ \# vertices
+        \end{itemize}
+    \item Important: measure must be roughly proportional to true bit-size (\#
+        of bits required to fully encode input). In practice, allow ourselves
+        to ignore log factors, e.g., we use size$([a_1,a_2,\ldots,a_n])=n$ when
+        it is really size$(a_1)+ \dots + \textrm{ size}(a_n) \propto n$ only if
+        each $a_i$ has constant size.  
+    \item running time measured at high level asymptotic notation - Big $O$,
+Big $\Theta$, Big $\Omega$ 
+\end{itemize}
+
+\end{document}

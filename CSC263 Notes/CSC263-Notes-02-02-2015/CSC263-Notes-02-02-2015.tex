@@ -1,0 +1,73 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-02-02-2015}
+
+\input{"../csc263-header"}
+\rhead{February 2, 2015}
+
+\reversemarginpar
+\mpreadings 
+
+\noindent 11.1, 11.2, 11.3, except 11.3.3 \\
+
+\mpselftest
+
+\noindent 11.1-1, 11.2-1, 11.2-2 
+
+\section*{Lecture 09}
+
+\subsection*{Hashing}
+
+\noindent Problem 1: Read a text file, keep track of number of occurences of each character (ASCII codes 0 - 127). \\
+Solution $\rightarrow$ Direct-access table: store number of occurences of each character in array with 128 positions. All operations $\Theta(1)$ and memory usage small. \\
+Problem 2: Read a data file, keep track of each integer value (from 0 to $2^{32} - 1$). \\
+Solution $\rightarrow$ Wasteful: use array with $2^{32}$ positions as above. Time is $\Theta(1)$ but memory required is huge. Instead, allocate array with 10000 positions (for example), and figure out how to map each integer to one position - ``hashing.'' \\
+
+\noindent \textbf{universe}:= set of all possible keys \\
+\textbf{hash table $T$}:= array with $m$ positions, each location called a ``slot'' or a ``bucket'' \\
+\textbf{hash function}:= $h: U \rightarrow \{0,1,\ldots,m-1\}$, $h(k)$ maps keys to buckets 
+
+\subsubsection*{Collisions}
+$$|u| > m \implies \exists\ k \neq k', h(k) = h(k')$$
+
+\subsubsection*{Strategies for Collision Resolution}
+
+\begin{enumerate}[label={(\alph*)}]
+	\item pointer to new locatation / overflow
+	\item rule to find the overflow
+\end{enumerate}
+
+\subsubsection*{Chaining (``closed hashing'')}
+
+\noindent Each location of $T$ stores linked list of items that hash to this location.
+
+\subsubsection*{Simple Uniform Hashing}
+
+$$P[h(x) = i] = \sum_{x \in U, h(x)=i} P[x] = \frac{1}{m} \textrm{ for } i = 0,1,\ldots,m-1$$
+
+\noindent It is equally likely for a key to go into any bucket.
+
+$$\sum_{x \in U, h(x)=i} P[x] = \frac{1}{m}$$
+
+\noindent Define load factor $\alpha$ = expected number of items in each bucket, $\alpha = \frac{n}{m}$ \\
+Random variables: \\
+\indent $N(x)$ = number of elements examined on search for $x$ \\
+\indent $L_i$ = number of elements in bucket $i$
+
+$$\sum_{i=0}^{m-1} L_i = n$$
+
+\noindent Probability space? $\rightarrow$ pick uniformly at random from $U$
+
+\begin{equation*}
+\begin{split}
+E[T] & = \sum_{x \in U} P[x] \cdot N(x) \\
+& = \sum_{i = 0}^{m-1} \left ( \sum_{x \in U,h(x)=i} P(x) \cdot N(x) \right ) \\
+& \leq \sum_{i=0}^{m-1} P[h(x)=i] \cdot L_i = \frac{1}{m} \sum_{i=0}^{m-1} L_i = \frac{n}{m} = \alpha
+\end{split}
+\end{equation*}
+
+\noindent Concern: In practical applications $\vert U \vert >> m$. So analysis above computes expectation for keys most likely not in the table. Intuitively: searching for a key not in the table requires traversing one complete linked list with average size $\alpha$.
+
+\end{document}

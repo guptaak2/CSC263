@@ -1,0 +1,86 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-02-04-2015}
+
+\input{"../csc263-header"}
+\rhead{February 4, 2015}
+
+\section*{Lecture 10}
+
+\subsection*{Hashing}
+
+$ m \left \{ \begin{array}{| c |}
+	\hline \quad \\ \hline
+	\quad \\ \hline
+	\quad \\ \hline
+	\quad \\ \hline
+	\vdots \\ \hline
+	\quad \\ \hline
+\end{array} \right . 
+	\begin{array}{l}
+	\rightarrow [\quad] \\ 
+	\\ 
+	\rightarrow [\quad]\rightarrow[\quad]\\ 
+	\\ 
+	\\ 
+	\rightarrow [\quad] \\ 
+\end{array} $
+
+\noindent $m$ slots, universe $u$, $|u| > m$, $n$ entries \\
+$h(k)$ hash function, $h(k) = h(k') \rightarrow$ collision $\rightarrow$ chaining! \\
+chaining $\rightarrow$ linked list in each bucket
+
+$$ E[T] = \alpha = \frac{n}{m} $$
+
+$$ E[T] \rightarrow \textrm{ consider searching for }x\textrm{ chosen at random uniformly from items in }T $$ 
+
+\noindent Number of elements examined in search for $x$ \\
+= 1 + \# of elements in fron of $x$ in chain \\
+= 1 + \# of elements in $x$'s bucket inserted later than $x$ \\
+
+\noindent Let $x_1,x_2,x_3, \ldots, x_n$ be the elements in insertion order. Let\\
+$$x_{i,j} = \left \{ \begin{array}{l l}
+		1 & \quad h(x_i) = h(x_j) \\
+		0 & \quad \textrm{otherwise}
+\end{array} \right . $$
+
+\begin{equation*}
+\begin{split}
+E[T] & = E \left [ \frac{1}{n} \sum_{i=1}^{n} \left (1 + \sum_{j=i+1}^{n} X_{i,j} \right ) \right ] \\
+& = \frac{1}{n} \sum_{i=1}^n \left (1 + \underbrace{\sum_{j=i+1}^n \underbrace{E[X_{i,j}]}_{1/m}}_{(n-i)/m} \right ) \\
+& = 1 + \sum_{i=1}^n \frac{n-i}{m} \\
+& = 1 + \frac{\alpha}{2} - \frac{\alpha}{2n}
+\end{split}
+\end{equation*}
+
+\noindent Properties we would like:
+\begin{itemize}
+	\item not all go to same bucket
+	\item spread out keys, no empty buckets
+	\item need deterministic
+	\item efficient
+	\item use all bits of key
+\end{itemize}
+
+\subsubsection*{Non-numeric keys}
+
+``help'' $\rightarrow$ big number\\
+``pleh'' \\
+
+\noindent Division Method: $k \textrm{ mod }m$ \\
+Multiplication Method: \\
+$$ h(k) = \left \lfloor m \cdot \textrm{ frac}(k\cdot A) \right \rfloor \textrm{ where }A \in (0,1]$$
+
+\subsubsection*{Open Addressing}
+
+\noindent Instead of using chaining, we can store all the items directly in $T$. When a given bucket is full, we have a rule for determining which bucket to use next. The rule must be deterministic so that we can check the same sequence of buckets when we are searching for the item later. \\
+
+\noindent $h(k)$ \\
+$h(k'), h(k') + 1, h(k') + 2, \ldots \rightarrow$ probe sequence \\
+linear probe sequencing $\rightarrow$ clustering \\
+Use non-linear probing! \\
+Use double hashing! \\
+
+\end{document}

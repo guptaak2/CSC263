@@ -1,0 +1,129 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-03-30-2015}
+
+\input{"../csc263-header"}
+\rhead{March 30, 2015}
+
+\reversemarginpar
+
+\mpreadings
+
+\noindent Sections 8.1,9.1 \\
+
+\mpselftest
+
+\noindent Ex 8.1 
+
+\section*{Lecture 23}
+
+\subsection*{The Problem of Sorting}
+
+\noindent How fast can we sort? \\
+
+\noindent Existence of algorithms that run in worst-case time $O(n \log n)$
+confirm that sorting can be done in $O(n \log n)$ but does not rule out
+existence of better algorithms. \\
+
+\noindent We know how to analyze the worst-case complexity of algorithms worst
+case complexity of \textit{problems} involves extra work. \\
+
+\noindent For problem $P$, $C(P) =$ best (minimum) worst case running time of
+any algorithm that solves $P$. 
+
+\begin{itemize}
+	\item[] Upper bound on $C(P)$: give an algorithm and analyze its runtime.
+	E.g. sorting is $O(n \log n)$
+	\item[] Lower bound on $C(P)$: have to prove \textit{every} algorithm
+	requires a certain amount of time. In practice, analyze for a ``class'' of
+	algorithms. 
+\end{itemize}
+
+\subsection*{Comparison Algorithms}
+
+\begin{itemize}
+	\item compare one element to another
+	\item use a comparison tree
+\end{itemize}
+
+\mpex
+
+\noindent binary search on sorted $A[1 \ldots 3],x$ \\
+return index of $x$ (or 0 if not found) 
+
+\begin{itemize}
+	\item need a leaf for every possible output in the decision tree
+	\item height of the tree is a bound on the worst-case complexity
+\end{itemize}
+
+\subsection*{Information Theoretic Lower Bounds}
+
+\noindent Every binary tree with height $h$ has $\leq 2^h$ leaves. \\
+$\implies$ every binary tree with $L$ leaves has height $\geq \ceil{\log_2 L}$.
+\\
+
+\noindent Every comparison tree that solves a problem $P$ has a leaf for every
+possible output. Every comparison tree for $P$ has height $\geq \ceil{\log_2 m}$
+where $m$ is \# of outputs. \\
+
+\mpex
+
+\noindent searching sorted list \\
+input $A[1 \ldots n]$ where $A[1] \leq \ldots \leq A[n]$, key $x$ \\
+output index $i$ s.t. $A[i]=x$ or $i=0$ if $x$ not in $A$ \\
+\# outputs $n+1$, height $\geq \ceil{\log_2 (n+1)}$ \\
+
+\noindent Any algorithm that uses comparisons to search takes $\log_2 (n+1)$
+comparisons.\\
+
+\noindent Output: index $i$ s.t. $A[i]=x$ \\
+$- \infty$ if $x \leq A[1]$ \\
+$(i,i+1)$ if $A[i] < x < A[i+1]$ \\
+$\infty$ if $x > A[n]$ \\
+
+\noindent \# outputs = $2n+1$ \\
+
+\noindent WC $O(\ceil{\log_2 (2n+1)})$ \\
+
+\mpex
+
+\noindent sort $A[1 \ldots 3]$
+
+\noindent $h \geq \ceil{\log_2 (n!)}, \log_2 (n!) = O(n \log n)$
+
+\mpex
+
+\noindent Finding the max in an unsorted list.
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

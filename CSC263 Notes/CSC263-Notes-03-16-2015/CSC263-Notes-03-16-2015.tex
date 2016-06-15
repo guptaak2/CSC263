@@ -1,0 +1,82 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-03-16-2015}
+
+\input{"../csc263-header"}
+\rhead{March 16, 2015}
+
+\reversemarginpar
+\mpreadings
+
+\noindent Ch. 23 \\
+
+\mpselftest
+
+\noindent Ex. 23.1-1, 23.2-2
+
+\section*{Lecture 19}
+
+\subsection*{Minimum Spanning Trees}
+
+\noindent Let $G=(V,E)$ be a connected undirected graph with edge weights $w(e)$ for edge $e$ in $E$. \\
+
+\noindent A tree is an acylcic graph. \\
+
+\noindent A spanning tree is a set of edges that does not contain a cycle and every vertex $v$ in $V$ is 
+an endpoint of at least one edge. \\
+
+\noindent A minimum cost spanning tree (MCST) is a spanning tree $A$ such that the sum
+of the weights is minimized for all possible spanning trees $B$.
+$$ w(A) = \sum_{e \in A} w(w) \leq w(B) $$
+
+\subsubsection*{Prim's Algorithm}
+
+\noindent Define 2 arrays $p$ such that $p[u]$ contains vertex $v$ such that
+$(u,v)$ is in $E$ and $w(u,v)$ is minimized for all $v$ in $T$ adjacent to $u$. Priority such that priority$[u]$ 
+contins $w(u,p[u])$.
+
+\begin{lstlisting}[mathescape]
+
+Prim-MST(G=(V,E) w: E $\rightarrow$ R)
+	T = \{\}
+	initialize priority queue Q
+	for all v in V:
+		priority[v] = $\infty$
+		p[v] = NIL
+		Insert(Qv)
+		pick arbitrary vertex $s$ in $v$
+		priority[s] = 0
+	while (not isEmpty(Q)) do:
+		u = extract-min(Q)
+		if p[u] ! = NIL
+			T = T $\cup \{(p[u],u)\}$
+		for each $v$ in adjacency-list[u]:
+			if $v$ in $Q$ and $w(u,v) < $ priority$[v]$:
+				decrease-priority(v, w(u,v))
+				p[v] = u
+
+\end{lstlisting}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,121 @@
+\input{"../../../preamble"}
+
+\begin{document}
+
+\title{CSC263-Notes-02-23-2015}
+
+\input{"../csc263-header"}
+\rhead{February 23, 2015}
+
+\reversemarginpar
+\mpreadings
+
+\noindent Chapter 17. \\
+
+\mpselftest
+
+\noindent Exercises 17.1-2.
+
+\section*{Lecture 13}
+
+\subsection*{Amortized Analysis}
+
+\noindent Often we perform \textit{sequences} of operations on data structures and time complexity for processing the entire sequence is important. Define \textit{worst-case sequence complexity} of sequence of $m$ operations as the maximum runtime over \textit{all} sequences of $m$ operations.
+$$ \textrm{WCSC} \leq m \cdot \textrm{worst-case time of any one operation in any sequence of } m \textrm{ operations}$$
+
+\reversemarginpar
+\mymarginpar{Ex.}
+
+\noindent sorted linked list, \\
+starting from empty, \\
+\texttt{INS}, \texttt{DEL}, \texttt{SEARCH} \\
+
+\noindent \textbf{Upper Bound} \\
+
+\noindent Worst case for one operation is $\Theta(k)$ where $k$ is the size of the list. Also max size after $k$ operations $\leq k$. Worst-case runtime of operation $i \leq c(i-1)$.
+
+$$\textrm{WCSC } \leq \sum_{i=1}^m c(i-1) = O \left ( \frac{c(m)(m-1)}{2} \right ) $$
+
+\noindent \textbf{Lower Bound} \\
+
+\mpconsider
+
+\noindent the sequence \texttt{INS(1)}, \texttt{INS(2)}, $\ldots$, \texttt{INS(m)}
+
+$$ \sum_{i=1}^{m} d(i-1) = \frac{d(m-1)m}{2} $$
+
+\noindent Combing upper and lower bounds we get that
+$$ \textrm{WCSC } \in \left ( \frac{\Theta(m^2)}{m} \right ) = \Theta(m) \textrm{ ammortized sequence complexity } $$
+
+\subsection*{Binary Counter}
+
+Seqeunce of $k$ bits ($k$ fixed) with single operation: \\
+\texttt{increment}: add 1 to integer represented by counter. The ``cost'' (i.e. running time) of one \texttt{increment} operation is equal to the number of bits that change during \texttt{increment}. For example, if $k = 5$: \\
+
+\begin{tabular}{l l l l}
+  initial counter & \texttt{00000} & (value = 0) \\
+	after \texttt{increment}: & \texttt{00001} & (value = 1) & cost = 1 \\
+	after \texttt{increment}: & \texttt{00010} & (value = 2) & cost = 2 \\
+	after \texttt{increment}: & \texttt{00011} & (value = 3) & cost = 1 \\
+	after \texttt{increment}: & \texttt{00100} & (value = 4) & cost = 3 \\
+	after \texttt{increment}: & \texttt{00101} & (value = 5) & cost = 1 \\
+	$\vdots$ & & & \\
+	after \texttt{increment}: & \texttt{11101} & (value = 29) & cost = 1 \\
+	after \texttt{increment}: & \texttt{11110} & (value = 30) & cost = 2 \\
+	after \texttt{increment}: & \texttt{11111} & (value = 31) & cost = 1 \\
+	after \texttt{increment}: & \texttt{00000} & (value = 0) & cost = 5 \\
+	$\vdots$ & & &
+\end{tabular}
+
+\subsection*{Aggregate Approach}
+
+\noindent Compare worst-case sequence complexity of a sequence of operations and divide by the number of operations in the sequence. \\
+
+\noindent $k$ bits in counter, \texttt{INCREMENT} \\
+``cost'' $\rightarrow$ runtime (\# of bits flipped) \\
+
+\begin{tabular}{l l l}
+	bit number & changes & total number of changes \\
+	0 & every time & $n$ \\
+	1 & every other time & $\floor{n/2}$ \\
+	2 & ${\textrm{every other}}^2$ time & $\floor{n/4}$ \\
+	$i^{\textrm{th}}$ & ${\textrm{every other}}^i$ time & $\floor{n/2^i}$ \\
+	$k-1$ & every $2^{k-1}$ operations & $\floor{n/2^{k-1}}$
+\end{tabular}
+
+$$ \textrm{Total bits flipped }
+\leq \sum_{i=0}^{k-1} \left \lfloor \frac{n}{2^i} \right \rfloor
+\leq \sum_{i=0}^{\floor{\lg n}} \left \lfloor \frac{n}{2^i} \right \rfloor \leq n \sum_{i=0}^{\lg n} \frac{1}{2^i}
+\leq n \sum_{i=0}^{\infty} \frac{1}{2^i}
+= 2n $$
+
+\noindent Ammortized cost is = $2n / n = 2$. \\
+
+\subsection*{Accounting Method}
+
+\noindent Each operation is assigned a ``cost'' (representing running time) and a ``charge'' (representing ammortized worst-case running time, approximately). Goal: ensure total charge for sequence $\geq$ total cost for sequence. \\
+
+\noindent Imagine individual elements in data structure can store ``credit'':
+when operation's charge $\geq$ cost, charge ``pays'' for cost and amount left over is assigned to specific elements in data structure; when operation's charge $<$ cost, use some stored credit to ``pay'' for cost. To ensure this works, argue credit never negative (equivalent to total charge for sequence $\geq$ total cost for sequence). Then ammortized complexity $\leq$ average charge. \\
+
+\noindent Binary counter example: \\
+During one \texttt{increment} operation many bits may change from 1 to 0 but exactly one bit will change from 0 to 1. (for example, \texttt{increment(00111) $\rightarrow$ 01000}) Can we ensure enough credits to flip every 1 to 0? Then each operation only need be charged for flipping 0 to 1. \\
+
+\noindent Idea: just charge each operaion \$2: \$1 to flip 0 to 1 and \$1 to store with the bit just changed to 1. Since counter starts at 0, possible to show ``credit invariant'': \\
+
+``At any step during the sequence, each bit of the counter that is equal to 1 will have \$1 credit.'' \\
+
+\mpproof
+
+\noindent by induction: \\
+
+\noindent Initially, counter is 0 and no credit: invariant trivially true. \\
+Assume invariant true and \texttt{increment} is performed \\
+\indent Cost of flipping 1's to 0's paid for by credits stored with each 1; \\
+\indent Cost of flipping 0 to 1 paid for by \$1 of \$2 charge; \\
+\indent Remaining \$1 stored with new 1. \\
+No other bit changes so every 1 has \$1 credit at the end. \\
+
+\noindent This shows total charge for sequence is upper bound on total cost. In this case, total charge = $2n$, so ammortized cost per operation is $\leq 2n/n = 2$ (same as before).
+
+\end{document}
